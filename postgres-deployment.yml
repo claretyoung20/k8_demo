@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shishe-db
+  namespace: shishe
+  labels:
+    app: shishe-postgres
+spec:
+  selector:
+    matchLabels:
+      app: shishe-postgres
+  template:
+    metadata:
+      labels:
+        app: shishe-postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: shishe-secret
+                key: postgres-user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: shishe-secret
+                key: postgres-password
+

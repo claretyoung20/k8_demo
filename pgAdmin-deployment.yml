@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shishe-pgadmin
+  namespace: shishe
+  labels:
+    app: shishe-pgAdmin
+spec:
+  selector:
+    matchLabels:
+      app: shishe-pgAdmin
+  template:
+    metadata:
+      labels:
+        app: shishe-pgAdmin
+    spec:
+      containers:
+      - name: pgadmin
+        image: dpage/pgadmin4
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: PGADMIN_DEFAULT_EMAIL
+            valueFrom:
+              configMapKeyRef:
+                name: shishe-configmap
+                key: pgAdmin_email
+          - name: PGADMIN_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: shishe-secret
+                key: pgAdmin-password
+

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shishe-configmap
+  namespace: shishe
+data:
+    keycloak_database_host: postgresservice
+    keycloak_database_url: jdbc:postgresql://postgresservice:5432/shishe_kc 
+    keycloak_database_name: shishe_kc
+    pgAdmin_email: claretyoung@gmail.com

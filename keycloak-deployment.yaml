@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: shishe
+  labels:
+    app: shishe-keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shishe-keycloak
+  template:
+    metadata:
+      labels:
+        app: shishe-keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:20.0.1
+        args: ["start-dev"]
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /realms/master
+            port: 8080
+        env:
+          - name: KC_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: shishe-configmap
+                key: keycloak_database_host
+          - name: KEYCLOAK_DATABASE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: shishe-configmap
+                key: keycloak_database_url
+          - name: KC_DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: shishe-secret
+                key: keycloak-database-user
+          - name: KC_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: shishe-secret
+                key: keycloak-database-password
+          - name: KC_PROXY
+            value: "edge"
+
+
+
