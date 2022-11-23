@@ -17,42 +17,33 @@ spec:
     spec:
       containers:
       - name: keycloak
-        image: quay.io/keycloak/keycloak:20.0.1
-        args: ["start-dev"]
+        image: jboss/keycloak
         resources:
           limits:
             memory: "512Mi"
-            cpu: "1000m"
+            cpu: "1800m"
         ports:
-        - name: http
-          containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /realms/master
-            port: 8080
+        - containerPort: 8080
         env:
-          - name: KC_HOSTNAME
+          - name: DB_ADDR
             valueFrom:
               configMapKeyRef:
                 name: shishe-configmap
                 key: keycloak_database_host
-          - name: KEYCLOAK_DATABASE_URL
+          - name: DB_DATABASE
             valueFrom:
               configMapKeyRef:
                 name: shishe-configmap
-                key: keycloak_database_url
-          - name: KC_DB_USERNAME
+                key: keycloak_database_name
+          - name: DB_USER
             valueFrom:
               secretKeyRef:
                 name: shishe-secret
                 key: keycloak-database-user
-          - name: KC_DB_PASSWORD
+          - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: shishe-secret
                 key: keycloak-database-password
-          - name: KC_PROXY
-            value: "edge"
-
-
-
+          - name: DB_VENDOR
+            value: postgres
