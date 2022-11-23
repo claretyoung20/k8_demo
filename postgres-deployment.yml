@@ -6,6 +6,7 @@ metadata:
   labels:
     app: shishe-postgres
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: shishe-postgres
