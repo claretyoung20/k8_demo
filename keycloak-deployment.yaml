@@ -18,10 +18,6 @@ spec:
       containers:
       - name: keycloak
         image: jboss/keycloak
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "1800m"
         ports:
         - containerPort: 8080
         env:
