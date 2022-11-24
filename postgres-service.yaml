@@ -6,9 +6,9 @@ metadata:
   labels:
     app: shishe-postgres
 spec:
+  type: LoadBalancer
   selector:
     app: shishe-postgres
   ports:
-  - protocol: TCP
-    port: 5432
+  - port: 5432
     targetPort: 5432

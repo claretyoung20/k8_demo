@@ -1,7 +1,0 @@
-CREATE USER shishe;
-
-CREATE DATABASE shishe_kc;
-GRANT ALL PRIVILEGES ON DATABASE shishe_kc TO shishe;
-
-CREATE DATABASE shishe_be;
-GRANT ALL PRIVILEGES ON DATABASE shishe_be TO shishe;
